@@ -1,0 +1,43 @@
+project: CRC100K 
+mode: one_shot 
+data:
+  datafile_path: ./Datafiles/CRC100K/test_samples_complete.csv 
+  save_path: ./Results/${project}/${mode}/ 
+  dataset_vectors_path: ./features/CRC100K_features.npy 
+  use_only: [NORM, TUM, ADI, DEB, LYM, MUC, MUS, STR]
+  batch_size: 0 
+  num_shots: 3
+  show_bbox: False 
+  label_replacements:
+    "NORM": "The following image contains normal, healthy colon mucosa: "
+    "TUM": "The following image contains colorectal adenocarcinoma / cancer: "
+    "ADI": "The following image contains adipose tisssue / fat: "
+    "BACK": "The following image contains background: " 
+    "DEB": "The following image contains debris: "
+    "LYM": "The following image contains lymphocytes: "
+    "MUC": "The following image contains mucus: "
+    "MUS": "The following image contains smooth muscle tissue: "
+    "STR": "The following image contains cancer-associated stroma: "
+ 
+  most_similar_last: False
+
+user_args:
+  system_prompt_path: ./Prompts/CRC100K/complete/system_prompt.txt
+  user_query_path: ./Prompts/CRC100K/complete/user_prompt_few_shot.txt
+  verbose: True
+  debug: False 
+  batched: False
+
+
+emi:
+  feature_dim: 768
+  mi_est_dim: 500
+  mi_ckpt_path: CLUB_global.pt
+  v_embedder_name: openai/clip-vit-base-patch32
+  t_embedder_name: xlm-roberta-base
+
+
+lambda_shift: 0.1
+lambda_var: 0.1
+model_name : Qwen/Qwen2.5-VL-7B-Instruct
+class_labels : ["ADI", "DEB", "TUM", "MUC", "STR", "LYM", "MUS", "NORM"]
